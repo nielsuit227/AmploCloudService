@@ -27,7 +27,7 @@ if DJANGO_ENV == 'development' or DJANGO_ENV == 'production':
     try: DEBUG = int(os.environ.get('DEBUG', default=0))
     except: DEBUG = False
 
-    try: ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWEd_HOSTS').split(" ")
+    try: ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS').split(" ")
     except: ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'localhost']
 
     DATABASES = {
@@ -58,14 +58,15 @@ else:
 
 
 PROJECT_DIR = Path(__file__).parent
-MEDIA_ROOT = os.path.join(BASE_DIR, 'files')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'files/')
 MEDIA_URL = 'files/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+print(STATIC_ROOT)
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'core/static'),
-    'http://127.0.0.1:8080'
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, '/static/'),
+#     'http://127.0.0.1:8080'
+# ]
 CORS_ORIGIN_WHITELIST = ('http://127.0.0.1:3000',)
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
