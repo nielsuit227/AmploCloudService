@@ -15,59 +15,25 @@ from unipath import Path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# Get building environment
-try: DJANGO_ENV = os.environ.get('DJANGO_ENV')
-except: DJANGO_ENV = 'local'
-
-if DJANGO_ENV == 'development' or DJANGO_ENV == 'production':
-    
-    try: SECRET_KEY = os.environ.get('SECRET_KEY')
-    except: SECRET_KEY = 'v4%!pmh6=a%5_ok6!24fllmd-g^7xjy+-6!95ll-r$t63npcxs'
-
-    try: DEBUG = int(os.environ.get('DEBUG', default=0))
-    except: DEBUG = False
-
-    try: ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS').split(" ")
-    except: ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'localhost']
-
-    DATABASES = {
-        'default': {
-            "ENGINE": os.environ.get("DB_ENGINE", "django.db.backends.sqlite3"),
-            "NAME": os.environ.get("DB_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
-            "USER": os.environ.get("DB_USER", "user"),
-            "PASSWORD": os.environ.get("DB_PASSWORD", "password"),
-            "HOST": os.environ.get("DB_HOST", "localhost"),
-            "PORT": os.environ.get("DB_PORT", "5432"),
-        }
+SECRET_KEY = 'v4%!pmh6=a%5_ok6!24fllmd-g^7xjy+-6!95ll-r$t63npcxs'
+DEBUG = False
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'localhost']
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'amplodb',
+        'USER': 'postgres',
+        'PASSWORD': '/=A:~84%S2w`Y8=^',
+        'HOST': 'db',
+        'PORT': '5432',
     }
-else:
-    SECRET_KEY = 'v4%!pmh6=a%5_ok6!24fllmd-g^7xjy+-6!95ll-r$t63npcxs'
-    DEBUG = True
-    ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'localhost']
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'amplodb',
-            'USER': 'postgres',
-            'PASSWORD': '/=A:~84%S2w`Y8=^',
-            'HOST': '127.0.0.1',
-            'PORT': '5432',
-        }
-    }
-
-
-
+}
 PROJECT_DIR = Path(__file__).parent
 MEDIA_ROOT = os.path.join(BASE_DIR, 'files/')
-MEDIA_URL = 'files/'
+MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-print(STATIC_ROOT)
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, '/static/'),
-#     'http://127.0.0.1:8080'
-# ]
-CORS_ORIGIN_WHITELIST = ('http://127.0.0.1:3000',)
+CORS_ORIGIN_WHITELIST = ('http://nginx:3000', 'http://127.0.0.1:3000')
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_EXPOSE_HEADERS = (

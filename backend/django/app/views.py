@@ -83,16 +83,18 @@ class addAssets(APIView):
     def post(self, request, format=None):
         try:
             data = request.data
-            for i in range(len(data['locations[]'])):
+            type = AssetType.objects.filter(type=data['type'])[0]
+            for i in range(len(data['locations'])):
                 Asset(
-                    type= AssetType.objects.filter(type=data['type'][0])[0],
-                    location= data['locations[]'][i],
-                    serial= data['serials[]'][i],
-                    version= data['versions[]'][i],
+                    type=type,
+                    location= data['locations'][i],
+                    serial= data['serials'][i],
+                    version= data['versions'][i],
                     commission_date=datetime.now(),
                 ).save()
             return Response('Success')
         except Exception as e:
+            print(e)
             return Response('Error has occured: %s' % e)
 
 class delAssetType(APIView):
@@ -116,10 +118,11 @@ class uploadAssets(APIView):
             headers = next(reader)
             headers = [i.lower() for i in headers]
             try:
-                typeHeader = headers.index('type')
-                locationHeader = headers.index('location')
-                serialHeader = headers.index('serial')
-                versionHeader = headers.index('version')
+                typeHeader = [headers.index(i) for i in headers if 'type' in i][0]
+                locationHeader = [headers.index(i) for i in headers if 'location' in i][0]
+                serialHeader = [headers.index(i) for i in headers if 'serial' in i][0]
+                versionHeader = [headers.index(i) for i in headers if 'version' in i][0]
+                print(typeHeader)
             except:
                 return Response("Headers not found ('type', 'location', 'serial', 'version')")
             for row in reader:
@@ -128,7 +131,7 @@ class uploadAssets(APIView):
                 except:
                     return Response("Unknown Asset Type in .csv")
                 Asset(
-                    type=AssetType.objects.filter(type=row[typeHeader])[0],
+                    type=type,
                     location=row[locationHeader],
                     serial=row[serialHeader],
                     version=row[versionHeader],
@@ -136,6 +139,7 @@ class uploadAssets(APIView):
                 ).save()
             return Response('Success')
         except Exception as e: 
+            print(e)
             return Response('Failed to save Assets. Error: %s' % e)
 
 
