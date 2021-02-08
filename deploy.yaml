@@ -1,0 +1,138 @@
+# Deployments
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: acs-frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      run: acs-frontend
+  template:
+    metadata:
+      labels:
+        run: acs-frontend
+    spec:
+      containers:
+      - name: acs-frontend
+        image: 
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+          protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: acs-backend
+  labels:
+    app: acs-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: acs-backend
+  template:
+    metadata:
+      labels:
+        app: acs-backend
+    spec:
+      containers:
+      - name: acs-backend
+        image: 
+        imagePullPolicy: Always
+        env:
+            # [START cloudsql_secrets]
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql
+                  key: username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql
+                  key: password
+            # [END cloudsql_secrets]
+        ports:
+        - containerPort: 8080
+
+      # [START proxy_container]
+      - image: gcr.io/cloudsql-docker/gce-proxy:1.16
+        name: cloudsql-proxy
+        command: ["/cloud_sql_proxy", "--dir=/cloudsql",
+                  "-instances=responder-296908:us-central1:responderinstance=tcp:5432",
+                  "-credential_file=/secrets/cloudsql/credentials.json"]
+        volumeMounts:
+          - name: cloudsql-oauth-credentials
+            mountPath: /secrets/cloudsql
+            readOnly: true
+          - name: ssl-certs
+            mountPath: /etc/ssl/certs
+          - name: cloudsql
+            mountPath: /cloudsql
+      # [END proxy_container] 
+      # [START volumes]
+      volumes:
+        - name: cloudsql-oauth-credentials
+          secret:
+            secretName: cloudsql-oauth-credentials
+        - name: ssl-certs
+          hostPath:
+            path: /etc/ssl/certs
+        - name: cloudsql
+          emptyDir: {}
+      # [END volumes]        
+# [END kubernetes_deployment]
+---
+# Services (To make visible inside Cluster)
+apiVersion: v1
+kind: Service
+metadata:
+  name: acs-frontend
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    run: acs-frontend
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: acs-backend
+  labels:
+    app: acs-backend
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: acs-backend
+---
+# Ingress
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: basic-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: 'web-static-ip'
+    networking.gke.io/managed-certificates: risponder-produzione
+    FrontendConfig: 'my-frontend-config'
+    # kubernetes.io/ingress.allow-http: "false"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: acs-frontend
+          servicePort: 80
+      - path: /api/*
+        backend:
+          serviceName: acs-backend
+          servicePort: 80
+---

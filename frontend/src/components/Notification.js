@@ -5,7 +5,7 @@ import Popover from 'react-bootstrap/Popover';
 import getCookie from './getCookie';
 import axios from 'axios';
 import * as settings from '../Settings';
-import { FaBell } from 'react-icons/fa';
+import { FaRegBell } from 'react-icons/fa';
 
 
 class Notification extends React.Component{
@@ -84,7 +84,7 @@ class Notification extends React.Component{
                 <OverlayTrigger trigger="click" placement="bottom" overlay={this.popover()} onEnter={this.markRead} rootClose>
                     <div className='row'>
                         <div className='col-auto mx-0 px-0'>
-                            <FaBell size={40}/>
+                            <FaRegBell size={40}/>
                         </div>
                         <div className='col-auto mt--3 mx-0 px-0'>
                             <Badge pill variant="danger">{this.state.unread}</Badge>

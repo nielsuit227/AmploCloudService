@@ -11,7 +11,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'amplodb',
         'USER': 'postgres',
-        'PASSWORD': '/=A:~84%S2w`Y8=^',
+        'PASSWORD': 'rYs@!r7yAne(@^85',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }

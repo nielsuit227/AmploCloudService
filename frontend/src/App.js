@@ -2,6 +2,8 @@ import React from 'react';
 import Urls from './Urls';
 import {connect} from 'react-redux';
 import * as actions from './store/authActions';
+import './css/bootstrap.css';
+import './css/argon-dashboard.css';
 
 
 function App(props) {

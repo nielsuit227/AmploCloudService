@@ -3,7 +3,6 @@ import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import axios from 'axios';
 import getCookie from '../../components/getCookie';
-import { CssBaseline } from '@material-ui/core';
 import * as settings from '../../Settings';
 import Layout from '../../components/Layout';
 
@@ -67,7 +66,7 @@ class CreateAssetType extends React.Component {
             )
         } else {
             return(
-                <div>
+                <div className='my-3'>
                     <Alert variant='danger'>{this.state.error}</Alert>
                 </div>                
             )
@@ -78,17 +77,28 @@ class CreateAssetType extends React.Component {
         return(
             <Layout {...this.props}>
                 <React.Fragment>
-                    <CssBaseline/>
-                    <div className="row">
-                        <div className="col-auto mt-5">
-                            <a href="/settings/assettypes/">
-                                <Button variant='outline-light'>
-                                    back
-                                </Button>
-                            </a>
+                    <a href="/settings/assettypes/">
+                        <Button variant='outline-primary' className='my-2'>
+                            back
+                        </Button>
+                    </a>
+                    <div className='card'>
+                        <div className='card-header'>
+                            <h5>Add Asset Type</h5>
+                        </div>
+                        <div className='card-body'>
+                            <div className='col-xl-12'>
+                                <h6>Type:</h6>
+                                <input className='my-input' placeholder="Asset Type" onChange={this.handleType}></input>
+                                <h6 className="mt-4">Description:</h6>
+                                <textarea className="p-2" rows="4" placeholder="Asset Description" onChange={this.handleDescription}></textarea>
+                                <h6 className="mt-4">New Price:</h6>
+                                <input placeholder="price..." onChange={this.handlePrice}></input>   
+                            </div>
                         </div>
                     </div>
-                    <div className="header-body">
+
+{/* 
                         <div className="row">
                             <div className="card card-body">
                                 <div className="card-header bg-transparent">
@@ -116,9 +126,9 @@ class CreateAssetType extends React.Component {
                                         </Button>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+                            </div> */}
+                        {/* </div>
+                    </div> */}
                 </React.Fragment>
             </Layout>
         )

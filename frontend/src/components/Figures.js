@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import * as d3 from 'd3';
 import Button from 'react-bootstrap/Button';
 import {
   Legend, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ReferenceArea,
@@ -15,7 +16,7 @@ const colors = [
 
 ];
 
-class DataInterfacePlot extends PureComponent {
+export class DataInterfacePlot extends PureComponent {
     constructor(props) {
         super(props);
         this.getAxisYDomain = this.getAxisYDomain.bind(this);
@@ -163,7 +164,7 @@ class DataInterfacePlot extends PureComponent {
         );
     }
 }
-class CustomTick extends PureComponent {
+export class CustomTick extends PureComponent {
     render() {
         const {x, y, payload} = this.props;
         if (payload.value === Infinity || payload.value === -Infinity){
@@ -179,7 +180,7 @@ class CustomTick extends PureComponent {
         )
     }
 }
-class PredictionPlot extends PureComponent {
+export class PredictionPlot extends PureComponent {
     constructor(props) {
         super(props);
         this.getAxisYDomain = this.getAxisYDomain.bind(this);
@@ -379,4 +380,49 @@ class PredictionPlot extends PureComponent {
     }
 }
 
-export { DataInterfacePlot, PredictionPlot };
+export var gauge = function(value, min = 0, max = 100, unit='%') {
+    const backgroundArc = d3.arc().innerRadius(0.65).outerRadius(1).startAngle(-Math.PI / 2).endAngle(Math.PI / 2)
+      .cornerRadius(1)();
+    const percentScale = d3.scaleLinear().domain([min, max]).range([0, 1])
+    const percent = percentScale(value);
+    const angleScale = d3.scaleLinear().domain([0, 1]).range([-Math.PI / 2, Math.PI / 2]).clamp(true);
+    const angle = angleScale(percent);
+    const filledArc = d3.arc().innerRadius(0.65).outerRadius(1).startAngle(-Math.PI / 2).endAngle(angle)
+        .cornerRadius(1)();
+    const colorScale = d3.scaleLinear().domain([0, 1]).range(["#ffffff", "#2369EC"])
+    const gradientSteps = colorScale.ticks(10).map(value => colorScale(value))
+    return (
+        <div>
+            <div style={{textAlign: 'center'}}>
+                <svg style={{overflow: "visible"}} width="12em" viewBox={[-1, -1, 2, 1, ].join(" ")}>
+          <defs>
+            <linearGradient id="Gauge__gradient" gradientUnits="userSpaceOnUse" x1="-1" x2="1" y2="0">
+              {gradientSteps.map((color, index) => (
+                <stop
+                  key={color}
+                  stopColor={color}
+                  offset={`${
+                    index
+                    / (gradientSteps.length - 1)
+                  }`}
+                />
+              ))}
+            </linearGradient>
+          </defs>
+          <path d={backgroundArc} fill="#dbdbe7" />
+          <path d="M0.136364 0.0290102C0.158279 -0.0096701 0.219156 -0.00967009 0.241071 0.0290102C0.297078 0.120023 0.375 0.263367 0.375 0.324801C0.375 0.422639 0.292208 0.5 0.1875 0.5C0.0852272 0.5 -1.8346e-08 0.422639 -9.79274e-09 0.324801C0.00243506 0.263367 0.0803571 0.120023 0.136364 0.0290102ZM0.1875 0.381684C0.221591 0.381684 0.248377 0.356655 0.248377 0.324801C0.248377 0.292947 0.221591 0.267918 0.1875 0.267918C0.153409 0.267918 0.126623 0.292947 0.126623 0.324801C0.126623 0.356655 0.155844 0.381684 0.1875 0.381684Z"
+            transform={`rotate(${
+              angle * (180 / Math.PI)
+            }) translate(-0.2, -0.33)`} fill="#6a6a85" />
+          <path d={filledArc} fill="url(#Gauge__gradient)" />
+        </svg>
+      </div>
+      <div style={{marginTop: "2em", fontsize:"1em", textAlign: 'center'}}>
+        
+      </div>
+      <div style={{fontSize: "2em", textAlign: 'center', lineHeight: "1em", fontFeatureSettings: "'zero', 'tnum' 1"}}>
+        {String(value)} {String(unit)}
+      </div>
+    </div>
+  )
+}

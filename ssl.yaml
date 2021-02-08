@@ -1,0 +1,15 @@
+apiVersion: networking.gke.io/v1beta2
+kind: ManagedCertificate
+metadata:
+  name: Amplo-Cloud-Service
+spec:
+  domains:
+    - 
+---
+apiVersion: networking.gke.io/v1beta1
+kind: FrontendConfig
+metadata:
+  name: my-frontend-config
+spec:
+  redirectToHttps:
+    enabled: true

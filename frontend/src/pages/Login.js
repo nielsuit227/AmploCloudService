@@ -83,7 +83,7 @@ function Login(props) {
       <CssBaseline />
       <div className={classes.paper}>
         <Typography component='h1' variant='h4'>Amplo Predictive Cloud</Typography>
-        <Button className="my-2" variant='primary' disabled>
+        <Button className="my-2" variant='secondary' disabled>
           <FaLock size={40} color='white'/>
         </Button>
         <Typography component="h1" variant="h5">
