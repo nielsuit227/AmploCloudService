@@ -187,7 +187,7 @@
   padding: 0px !important;
   text-align: center;
 }
-/* .myinput {
+.myinput {
   width: 100%;
   padding: 7px 10px;
   border-radius: 5px;
@@ -196,7 +196,7 @@
 .myinput:focus {
   outline: none;
   border: 2px solid #2684FF;
-} */
+}
 
 .css-17n31b1-menu {
   background-color: #fff !important;

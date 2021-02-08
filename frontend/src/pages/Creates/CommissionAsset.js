@@ -171,39 +171,22 @@ class AddAsset extends React.Component {
         return(
             <Layout {...this.props}>
                 <React.Fragment>
-                    <CssBaseline/>
-                    <div className="row">
-                        <div className="col-auto mt-5">
-                            <a href="/settings/assets/">
-                                <Button variant='outline-light'>
-                                    back
-                                </Button>
-                            </a>
+                    <a href="/settings/assets/">
+                        <Button variant='outline-primary' className='my-2'>
+                            back
+                        </Button>
+                    </a>
+                    <div className='card'>
+                        <div className='card-header'>
+                            <h5>Commission Asset</h5>
                         </div>
-                    </div>
-                    <div className="header-body">
-                        <div className="row">
-                            <div className="card card-body">
-                                <div className="card-header bg-transparent">
-                                    <h2 className="card-title text-muted mb-0">
-                                        Commission Assets
-                                    </h2>
-                                </div>
-                                <h5 className="mt-3 mb--2">Commissioning assets can either be done manually or by uploading a csv-file.  </h5>
-                                <hr></hr>
-                                <div className="row">
-                                    <div className="col-xl-4 pr-6">
-                                        <h3>Upload .csv: </h3>
-                                        <h5>The CSV needs to contain five columns; Type, Location, Serial and Version.</h5>
-                                        <input className="my-2 pr-4" type="file" onChange={this.handleFile}></input>
-                                        <Button className="my-2" variant="outline-primary" onClick={this.uploadFile}>
-                                            Upload
-                                        </Button>
-                                        {this.fileError()}
-                                    </div>
-                                    <div className="col-xl-8 pl-6 border-left">
+                        <div className='card-body'>
+                            <h6>Commissioning assets can either be done manually or by uploading a csv-file.</h6>
+                            <hr className='py-3'/>
+                            <div className="row">
+                                    <div className="col-xl-7 pr-6 border-right">
                                         <div className="col-auto">
-                                            <h3>Manual Commission:</h3>
+                                            <h5>Manual Commission:</h5>
                                         </div>
                                         <div className="col-xl-8 mb-4">
                                             <div className="row">
@@ -226,31 +209,41 @@ class AddAsset extends React.Component {
                                             this.state.entries.map((idx) => {
                                                 return(
                                                     <div className="row mt--1 mx-1">
-                                                        <h4 className="mt-1 ml-3">#{idx + 1}</h4>
+                                                        <h6 className="mt-1 ml-3">#{idx + 1}</h6>
                                                         <div className="col-xl-3">
-                                                            <input type="text" placeholder="Location" onChange={(ev) => this.handleLocation(idx, ev)}/>
+                                                            <input className='myinput' placeholder="Location" onChange={(ev) => this.handleLocation(idx, ev)}/>
                                                         </div>
                                                         <div className="col-xl-3">
-                                                            <input type="text" placeholder="Serial" onChange={(ev) => this.handleSerial(idx, ev)}/>
+                                                            <input className='myinput' placeholder="Serial" onChange={(ev) => this.handleSerial(idx, ev)}/>
                                                         </div>
                                                         <div className="col-xl-3">
-                                                            <input type="text" placeholder="Version" onChange={(ev) => this.handleVersion(idx, ev)}/>
+                                                            <input className='myinput' placeholder="Version" onChange={(ev) => this.handleVersion(idx, ev)}/>
                                                         </div>
                                                     </div>
                                                 )
                                             })
                                         }
-                                        <div className="col-xl-2">
-                                            <Button variant='outline-primary' onClick={this.handleSubmit}>
-                                                Save
-                                            </Button>
-                                        </div>
-                                        <div className="col-xl-8 my-3">
-                                            {this.manualError()}
-                                        </div>                                    
+                                        <div className='row mt-5'>
+                                            <div className="col-xl-2">
+                                                <Button variant='outline-primary' onClick={this.handleSubmit}>
+                                                    Save
+                                                </Button>
+                                            </div>
+                                            <div className="col-xl-8">
+                                                {this.manualError()}
+                                            </div>  
+                                        </div>                                  
+                                    </div>
+                                    <div className="col-xl-5 pl-6">
+                                        <h5>Upload .csv: </h5>
+                                        <h6>The CSV needs to contain five columns; Type, Location, Serial and Version.</h6>
+                                        <input className="my-2 pr-4" type="file" onChange={this.handleFile}></input>
+                                        <Button className="my-2" variant="outline-primary" onClick={this.uploadFile}>
+                                            Upload
+                                        </Button>
+                                        {this.fileError()}
                                     </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </React.Fragment>

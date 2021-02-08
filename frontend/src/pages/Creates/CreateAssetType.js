@@ -5,6 +5,7 @@ import axios from 'axios';
 import getCookie from '../../components/getCookie';
 import * as settings from '../../Settings';
 import Layout from '../../components/Layout';
+import { interpolate } from 'd3';
 
 class CreateAssetType extends React.Component {
     constructor(props) {
@@ -37,15 +38,15 @@ class CreateAssetType extends React.Component {
             this.setState({error: 'Please provide Asset Description.'});
         } else if (this.state.price === '') {
             this.setState({error: 'Please provide Asset Price.'});
-        } else if (this.state.email === '') {
-            this.setState({error: 'Pleas eprovide email.'});
+        } else if (isNaN(parseFloat(this.state.price))) {
+            this.setState({error: 'Price should be a number.'});
         } else {
             axios.post(
                 `${settings.API_SERVER}/api/addAssetType/`, 
                 {
                     type: this.state.type,
                     description: this.state.description,
-                    price: this.state.price,
+                    price: parseFloat(this.state.price),
                 }, 
                 {headers: {
                     'Authorization': `Token ${localStorage.getItem('token')}`,
@@ -54,7 +55,7 @@ class CreateAssetType extends React.Component {
             )
             .then(data => {
                 console.log(data);
-                window.location.assign('/settings/assettypes')
+                // window.location.assign('/settings/assettypes')
             })
             .catch(err => {console.log(err)});
         }
@@ -66,7 +67,7 @@ class CreateAssetType extends React.Component {
             )
         } else {
             return(
-                <div className='my-3'>
+                <div>
                     <Alert variant='danger'>{this.state.error}</Alert>
                 </div>                
             )
@@ -87,48 +88,26 @@ class CreateAssetType extends React.Component {
                             <h5>Add Asset Type</h5>
                         </div>
                         <div className='card-body'>
-                            <div className='col-xl-12'>
+                            <div className='col-xl-6'>
                                 <h6>Type:</h6>
-                                <input className='my-input' placeholder="Asset Type" onChange={this.handleType}></input>
+                                <input className='myinput' placeholder="Asset Type" onChange={this.handleType}></input>
                                 <h6 className="mt-4">Description:</h6>
-                                <textarea className="p-2" rows="4" placeholder="Asset Description" onChange={this.handleDescription}></textarea>
+                                <textarea className="myinput p-2" rows="4" placeholder="Asset Description" onChange={this.handleDescription}></textarea>
                                 <h6 className="mt-4">New Price:</h6>
-                                <input placeholder="price..." onChange={this.handlePrice}></input>   
+                                <input className='myinput' placeholder="price..." onChange={this.handlePrice}></input>   
+                            </div>
+                        </div>
+                        <div className='row mb-5'>
+                            <div className='col-xl-4 ml-5'>
+                                {this.error()}
+                            </div>
+                            <div className='col-xl-2'>
+                                <Button variant='outline-primary' onClick={this.handleSubmit}>
+                                    Save
+                                </Button>
                             </div>
                         </div>
                     </div>
-
-{/* 
-                        <div className="row">
-                            <div className="card card-body">
-                                <div className="card-header bg-transparent">
-                                    <h2 className="card-title text-muted mb-0">
-                                        Create Asset Type
-                                    </h2>
-                                </div>
-                                <div className="row">
-                                    <div className="col-xl-9">
-                                        <h4>Type:</h4>
-                                        <input type="text" placeholder="Asset Type" onChange={this.handleType}></input>
-                                        <h4 className="mt-4">Description:</h4>
-                                        <textarea className="p-2" rows="4" placeholder="Asset Description" onChange={this.handleDescription}></textarea>
-                                        <h4 className="mt-4">New Price:</h4>
-                                        <input placeholder="price..." onChange={this.handlePrice}></input>                                      
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-xl-8">
-                                        {this.error()}
-                                    </div>
-                                    <div className="col-xl-2">
-                                        <Button variant='outline-primary' onClick={this.handleSubmit}>
-                                            Save
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div> */}
-                        {/* </div>
-                    </div> */}
                 </React.Fragment>
             </Layout>
         )
