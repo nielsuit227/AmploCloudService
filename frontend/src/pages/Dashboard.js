@@ -1,6 +1,7 @@
 import React from 'react';
+import Card from 'react-bootstrap/Card';
 import Layout from '../components/Layout';
-import {GaugeCard} from '../components/Cards';
+import { GaugeCard } from '../components/Cards';
 import { FaExclamationTriangle } from 'react-icons/fa';
 
 
@@ -26,9 +27,18 @@ class Dashboard extends React.Component {
         return (
             <Layout {...this.props}>
                 <React.Fragment>
-                    <div className='row'>
+                    <div className='row mt-6'>
                         <div className='col-xl-4'>
-                            {GaugeCard('Daily Yield', 'kWh', 60, [0, 80])}
+                            <Card className='fh-300'>
+                                <Card.Header>
+                                    <Card.Title>Automated Diagnostics Models</Card.Title>
+                                </Card.Header>
+                                <Card.Body>
+                                    <div className='col-xl-12 my-4'>
+                                        You currently have no AD models deployed.
+                                    </div>
+                                </Card.Body>
+                            </Card>
                         </div>
                         <div className='col-xl-4'>
                             {GaugeCard('Current Power', 'kW', 22.5, [0, 25])}

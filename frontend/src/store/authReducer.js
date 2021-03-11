@@ -7,13 +7,13 @@ import * as actionTypes from './authActionTypes';
 export const initialState = {
     error: null,
     loading: false,
-    token: null
+    key: null,
+    is_super: false,
+    groups: null,
+    name: null,
 }
-
-// ########################################################
-// A simple function to update the state with new values
-// ########################################################
-
+// Updates state
+// this function to allow building on old state
 const updateObject = (oldObject, updatedProperties) => {
     return {
         ...oldObject,
@@ -35,7 +35,10 @@ const authSuccessReducer = (state, action) => {
     return updateObject(state, {
         error: null,
         loading: false,
-        token: action.token
+        key: action.key,
+        name: action.name,
+        is_super: action.is_super,
+        groups: action.groups,
     });
 }
 
@@ -48,7 +51,10 @@ const authFailReducer = (state, action) => {
 
 const authLogoutReducer = (state, action) => {
     return updateObject(state, {
-        token: null
+        key: null,
+        is_super: false,
+        groups: null,
+        name: null,
     });
 }
 

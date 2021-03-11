@@ -15,6 +15,7 @@ class Notification extends React.Component{
         this.markRead = this.markRead.bind(this);
         this.state = {
             notifications: [],
+            unread: 0,
         }
     }
     componentDidMount() {

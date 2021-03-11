@@ -35,23 +35,22 @@ class Layout extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <CssBaseline />
                 <Sidemenu {...this.props} />
                 <div className="main-content">
                     <div className="header bg-gradient-primary pb-6 pt-md-4">
                         <div className="container-fluid">
                             <div className="row my-4">
-                                <div className="col-xl-3 la">
+                                <div className="col-xl-5 la">
                                     <span className="h4">
-                                        Amplo Cloud Service
+                                        Amplo Quality Management API Platform
                                     </span>
                                 </div>
-                                <div className='col-xl-6'></div>
+                                <div className='col-xl-4'></div>
                                 <div className='col-xl-3 ra'>
                                     <div className='row ra'>
                                         <Notification/>
                                         <span className="h5">
-                                            {this.state.user}
+                                            {this.props.user}
                                         </span>
                                     </div>
                                 </div>

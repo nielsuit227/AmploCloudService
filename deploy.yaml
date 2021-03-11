@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: acs-frontend
-        image: 
+        image: * IMAGE NAME *
         imagePullPolicy: Always
         ports:
         - containerPort: 80
@@ -39,7 +39,7 @@ spec:
     spec:
       containers:
       - name: acs-backend
-        image: 
+        image: * IMAGE NAME *
         imagePullPolicy: Always
         env:
             # [START cloudsql_secrets]
