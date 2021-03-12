@@ -15,12 +15,16 @@ class DiagnosticsModels(models.Model):
     title = models.TextField(unique=True, null=False)
     folder = models.TextField(unique=True, null=False)
     version = models.TextField(unique=False, null=False)
+    deployed = models.BooleanField(unique=False, null=False, default=False)
+    last_edit = models.DateTimeField(auto_now=True)
 
 class PredictiveModels(models.Model):
     group = models.ForeignKey(Group, on_delete=models.PROTECT)
     title = models.TextField(unique=True, null=False)
     folder = models.TextField(unique=True, null=False)
     version = models.TextField(unique=False, null=False)
+    deployed = models.BooleanField(unique=False, null=False, default=False)
+    last_edit = models.DateTimeField(auto_now=True)
 
 class DiagnosticDataFiles(models.Model):
     group = models.ForeignKey(Group, on_delete=models.PROTECT)
@@ -28,6 +32,7 @@ class DiagnosticDataFiles(models.Model):
     filename = models.TextField(unique=True, null=False)
     folder = models.TextField(unique=False, null=False)
     faulty = models.BooleanField(null=False)
+    last_edit = models.DateTimeField(auto_now=True)
 
 class PredictiveDataFiles(models.Model):
     group = models.ForeignKey(Group, on_delete=models.PROTECT)
@@ -35,6 +40,7 @@ class PredictiveDataFiles(models.Model):
     filename = models.TextField(unique=True, null=False)
     folder = models.TextField(unique=False, null=False)
     faulty = models.BooleanField(null=False)
+    last_edit = models.DateTimeField(auto_now=True)
 
 class DiagnosticEntries(models.Model):
     group = models.ForeignKey(Group, on_delete=models.PROTECT)
@@ -43,6 +49,7 @@ class DiagnosticEntries(models.Model):
     serial = models.TextField(null=False)
     failure_probability = models.IntegerField(null=False)
     correct = models.TextField(null=True)
+    created = models.DateTimeField(auto_now_add=True, null=True)
 
 class PredictiveEntries(models.Model):
     group = models.ForeignKey(Group, on_delete=models.PROTECT)
@@ -52,3 +59,4 @@ class PredictiveEntries(models.Model):
     failure_probability = models.IntegerField(null=False)
     remaining_lifetime = models.IntegerField(null=True)
     correct = models.TextField(null=True)
+    created = models.DateTimeField(auto_now_add=True, null=True)

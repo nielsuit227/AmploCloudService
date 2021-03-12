@@ -5,7 +5,6 @@ from unipath import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'v4%!pmh6=a%5_ok6!24fllmd-g^7xjy+-6!95ll-r$t63npcxs'
 DEBUG = False
-
 PROJECT_DIR = Path(__file__).parent
 MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
@@ -28,6 +27,14 @@ SESSION_COOKIE_HTTPONLY = True      # Not accessible by client
 SESSION_COOKIE_AGE = 8 * 3600        # Expires after 8 hr
 SESSION_COOKIE_SECURE = False        # Only HTTPS
 
+# Email settings
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = 'info@amplo.ch'
+EMAIL_HOST_PASSWORD = '5M;ykT]$5Sedq%QTB7n8AE}CchTY-8{=+^n.7^RN'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -49,7 +56,7 @@ INSTALLED_APPS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'amplodb',
+        'NAME': 'aqm_db',
         'USER': 'postgres',
         'PASSWORD': 'rYs@!r7yAne(@^85',
         'HOST': '127.0.0.1',
@@ -67,7 +74,6 @@ REST_FRAMEWORK = {
     },    
    'DEFAULT_AUTHENTICATION_CLASSES': (
        'rest_framework.authentication.SessionAuthentication',
-       'rest_framework.authentication.TokenAuthentication',
    ),
 }
 MIDDLEWARE = [

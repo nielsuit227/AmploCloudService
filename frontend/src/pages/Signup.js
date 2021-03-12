@@ -83,7 +83,8 @@ export default function SignUp(props) {
             if (response.data === 'Success') {
 
             } else {
-                toast.ERROR('Error. Please contact info@amplo.ch.', {
+                console.log(response.data)
+                toast.error('Error. Please contact info@amplo.ch.', {
                     hideProgressBar: true,
                 })
             }

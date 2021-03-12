@@ -96,7 +96,7 @@ function Login(props) {
 									required
 									fullWidth
 									id="username"
-									label="Username"
+									label="Email"
 									name="username"
 									autoComplete="username"
 									variant="outlined"

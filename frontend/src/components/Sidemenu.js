@@ -2,6 +2,7 @@
 import React from 'react';
 import '../css/argon-dashboard.css';
 import { FiDatabase } from 'react-icons/fi';
+import { BiLineChart } from 'react-icons/bi';
 import { FaTv, FaSearch, FaChartBar, FaRunning, FaCogs } from 'react-icons/fa';
 import logo from '../files/28july-big.png';
 import { Divider } from '@material-ui/core';
@@ -11,12 +12,13 @@ class Sidemenu extends React.Component {
         super(props);
         this.state = {
             active: '',
-            titles: ['Dashboard', 'Diagnostics', 'Predictive', 'Data Interface'],
-            links: ['/dashboard/', '/automated-diagnostics/', '/predictive-maintenance/', '/data-interface/'],
+            titles: ['Dashboard', 'Diagnostics', 'Predictive', 'Models', 'Data Interface'],
+            links: ['/dashboard/', '/automated-diagnostics/', '/predictive-maintenance/', '/models/', '/data-interface/'],
             icons: [
                 <FaTv className='mx-4'/>,
                 <FaSearch className="mx-4"/>,
                 <FaChartBar className="mx-4"/>,
+                <BiLineChart className='mx-4'/>,
                 <FiDatabase className='mx-4'/>
             ],
         }
@@ -81,7 +83,6 @@ class Sidemenu extends React.Component {
                                 })
                             }
                             <hr className="my-9"/>
-                            <hr className='my-4'/>
                             <Divider/>
                             {this.supermenu()}
                             <li className="nav-item">
